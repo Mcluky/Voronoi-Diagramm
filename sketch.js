@@ -31,19 +31,24 @@ function draw(){
     //point(mouseX, mouseY);
     //DrawCirle(300, 300, 100);
     
-    if(currentRadius <= 800){
-        currentRadius += 0.5;
-        DrawCirle(600, 350, currentRadius);
-    }else{
-        currentRadius = 1;
-        setup();
-    }
+    
 
     //ellipse(mouseX, mouseY, 80, 80);
     if(state == DO_NOTHING){
 
     } else if(state == CIRCLE_MODE){
-
+        isSetup = false;
+        if(currentRadius <= 800 && CIRCLE_MODE == 1){
+            currentRadius += 0.5;
+            DrawCirle(600, 350, currentRadius);
+        }else {
+            currentRadius = 1;
+                setup();
+            
+        }
+    } else if (state == RESET){
+        state = DO_NOTHING;
+        setup();
     }
 }
 
