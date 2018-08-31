@@ -22,7 +22,7 @@ function setup() {
 
     currentRadius = 1;
 
-    //DrawCirle(300, 300, 100);
+    DrawCirle(300, 300, 150);
 
     //default state
     state = DO_NOTHING
@@ -39,11 +39,16 @@ function draw() {
     } else if (state == CIRCLE_MODE) {
         isSetup = false;
         if (currentRadius <= 800 && CIRCLE_MODE == 1) {
+            
+            currentRadius += 1;
+            DrawCirle(600, 350, currentRadius);
+            /*
             currentRadius += 5;
             DrawCirle(600, 150, currentRadius);
             DrawCirle(600, 550, currentRadius);
             DrawCirle(200, 350, currentRadius);
             DrawCirle(1000, 350, currentRadius);
+            */
         } else {
             currentRadius = 1;
             setup();
@@ -63,51 +68,51 @@ var DrawCirle = function (x0, y0, radius) {
     while (x >= y) {
         point(x + x0, y + y0);
         point(x + x0, y + y0 + 1);
-        point(x + x0, y + y0 - 1);
-        point(x + x0 - 1, y + y0);
+        //point(x + x0, y + y0 - 1);
+        //point(x + x0 - 1, y + y0);
         point(x + x0 + 1, y + y0);
 
         point(y + x0, x + y0);
         point(y + x0, x + y0 + 1);
-        point(y + x0, x + y0 - 1);
+        //point(y + x0, x + y0 - 1);
         point(y + x0 + 1, x + y0);
-        point(y + x0 - 1, x + y0);
+        //point(y + x0 - 1, x + y0);
 
         point(-x + x0, y + y0);
         point(-x + x0, y + y0 + 1);
-        point(-x + x0, y + y0 - 1);
-        point(-x + x0 + 1, y + y0);
+        //point(-x + x0, y + y0 - 1);
+        //point(-x + x0 + 1, y + y0);
         point(-x + x0 - 1, y + y0);
 
         point(-y + x0, x + y0);
         point(-y + x0, x + y0 + 1);
-        point(-y + x0, x + y0 - 1);
-        point(-y + x0 + 1, x + y0);
+        //point(-y + x0, x + y0 - 1);
+        //point(-y + x0 + 1, x + y0);
         point(-y + x0 - 1, x + y0);
 
         point(-x + x0, -y + y0);
-        point(-x + x0, -y + y0 + 1);
+        //point(-x + x0, -y + y0 + 1);
         point(-x + x0, -y + y0 - 1);
-        point(-x + x0 + 1, -y + y0);
+        //point(-x + x0 + 1, -y + y0);
         point(-x + x0 - 1, -y + y0);
 
         point(-y + x0, -x + y0);
-        point(-y + x0, -x + y0 + 1);
+        //point(-y + x0, -x + y0 + 1);
         point(-y + x0, -x + y0 - 1);
-        point(-y + x0 + 1, -x + y0);
+        //point(-y + x0 + 1, -x + y0);
         point(-y + x0 - 1, -x + y0);
 
         point(x + x0, -y + y0);
-        point(x + x0, -y + y0 + 1);
+        //point(x + x0, -y + y0 + 1);
         point(x + x0, -y + y0 - 1);
         point(x + x0 + 1, -y + y0);
-        point(x + x0 - 1, -y + y0);
+        //point(x + x0 - 1, -y + y0);
 
         point(y + x0, -x + y0);
-        point(y + x0, -x + y0 + 1);
+        //point(y + x0, -x + y0 + 1);
         point(y + x0, -x + y0 - 1);
         point(y + x0 + 1, -x + y0);
-        point(y + x0 - 1, -x + y0);
+        //point(y + x0 - 1, -x + y0);
 
         y++;
 
