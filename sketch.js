@@ -1,5 +1,6 @@
 const constWidth = 1200;
-const constHeight = 700
+const constHeight = 700;
+
 function setup(){
     canvas = createCanvas(constWidth, constHeight);
     canvas.parent("canvas");
