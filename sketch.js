@@ -30,8 +30,8 @@ function setup() {
 
 function draw() {
     stroke(200);
-    point(mouseX, mouseY);
-    DrawCirle(300, 300, 100);
+    //point(mouseX, mouseY);
+    //DrawCirle(300, 300, 100);
 
     //ellipse(mouseX, mouseY, 80, 80);
     if (state == DO_NOTHING) {
@@ -39,8 +39,11 @@ function draw() {
     } else if (state == CIRCLE_MODE) {
         isSetup = false;
         if (currentRadius <= 800 && CIRCLE_MODE == 1) {
-            currentRadius += 1;
-            DrawCirle1(600, 350, currentRadius);
+            currentRadius += 5;
+            DrawCirle(600, 150, currentRadius);
+            DrawCirle(600, 550, currentRadius);
+            DrawCirle(200, 350, currentRadius);
+            DrawCirle(1000, 350, currentRadius);
         } else {
             currentRadius = 1;
             setup();
@@ -52,7 +55,7 @@ function draw() {
     }
 }
 
-var DrawCirle1 = function (x0, y0, radius) {
+var DrawCirle = function (x0, y0, radius) {
     var x = radius;
     var y = 0;
     var radiusError = 1 - x;
