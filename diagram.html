@@ -4,8 +4,21 @@
     <title>Voronoi-Diagramm</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.js"></script>
     <script src="sketch.js"></script>
+    <link rel='stylesheet' href='/style.css' />
 </head>
 <body>
-    <div id="canvas"></div>
+    <div id="container_box">
+        <div id="canvas"></div>
+        <div id="button_menue">
+            <button id="start_circle_mode" type="button" onclick="buttonClick(1)">Start Circle Mode</button>
+            <button id="stop" type="button" onclick="buttonClick(0)">Stop</button>
+            <button id="reset" type="button" onclick="buttonClick(-1)">Reset</button>
+        </div>
+    </div>
 </body>
+<script>
+    function buttonClick(statePara){
+        state = statePara;
+    }
+</script>
 </html>
