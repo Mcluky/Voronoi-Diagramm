@@ -20,7 +20,7 @@ function setup() {
 
     background('#1e1e1e');
 
-    currentRadius = 1;
+    currentRadius = 0;
 
     DrawCirle(300, 300, 150);
 
@@ -29,7 +29,7 @@ function setup() {
 }
 
 function draw() {
-    stroke(200);
+    stroke(255);
     //point(mouseX, mouseY);
     //DrawCirle(300, 300, 100);
 
@@ -61,11 +61,15 @@ function draw() {
 }
 
 var DrawCirle = function (x0, y0, radius) {
+point(x0, y0);
+
     var x = radius;
     var y = 0;
     var radiusError = 1 - x;
 
     while (x >= y) {
+
+
         point(x + x0, y + y0);
         point(x + x0, y + y0 + 1);
         //point(x + x0, y + y0 - 1);
