@@ -9,7 +9,7 @@ const RESET = -1;
 const CIRCLE_MODE = 1;
 
 function setup(){
-    canvas = createCanvas(constWidth, constHeight);
+    canvas = createCanvas(constWidth, constHeight, WEBGL);
     canvas.parent("canvas");
     angleMode(DEGREES);
     frameRate(60);
