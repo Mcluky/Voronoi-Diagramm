@@ -61,7 +61,9 @@ function draw() {
 }
 
 var DrawCirle = function (x0, y0, radius) {
-point(x0, y0);
+    stroke(radius % 255);
+
+    point(x0, y0);
 
     var x = radius;
     var y = 0;
