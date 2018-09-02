@@ -5,6 +5,7 @@ var canvas;
 var state;
 var currentRadius;
 var isSetup;
+var finished;
 
 const DO_NOTHING = 0;
 const RESET = -1;
@@ -13,6 +14,8 @@ const CIRCLE_MODE = 1;
 
 function setup() {
     isSetup = true;
+    stopCounter = 0;
+    finished = false;
     canvas = createCanvas(constWidth, constHeight);
     canvas.parent("canvas");
     angleMode(DEGREES);
@@ -51,13 +54,19 @@ function draw() {
             */
         } else {
             currentRadius = 1;
-            setup();
+            finish();
+            //setup();
 
         }
     } else if (state == RESET) {
         state = DO_NOTHING;
         setup();
     }
+}
+
+function finish(){
+    finished = true;
+    state = DO_NOTHING;
 }
 
 var DrawCirle = function (x0, y0, radius) {

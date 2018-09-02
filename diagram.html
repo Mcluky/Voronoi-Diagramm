@@ -10,15 +10,68 @@
     <div id="container_box">
         <div id="canvas"></div>
         <div id="button_menue">
-            <button id="start_circle_mode" type="button" onclick="buttonClick(1)">Start Circle Mode</button>
+            <button id="start_circle_mode" type="button" class="startButton" onclick="buttonClick(1)">Start Circle Mode</button>
             <button id="stop" type="button" onclick="buttonClick(0)">Stop</button>
             <button id="reset" type="button" onclick="buttonClick(-1)">Reset</button>
         </div>
     </div>
 </body>
 <script>
+    var lastState = DO_NOTHING;
+    var startButtons = document.getElementsByClassName('startButton');
+    var stopContButton = document.getElementById('stop');
+    var stopCounter = 0;
+    (function(){
+    // do some stuff
+        setTimeout(arguments.callee, 10);
+
+        if(state == DO_NOTHING && isSetup){
+            stopContButton.disabled = true;
+            stopContButton.firstChild.data = 'stop';
+            for(var i = 0; i < startButtons.length; i++){
+                startButtons[i].disabled = false;
+            }
+        } else if(state != DO_NOTHING){
+            stopContButton.disabled = false;
+            stopContButton.firstChild.data = 'stop';
+            for(var i = 0; i < startButtons.length; i++){
+                startButtons[i].disabled = true;
+            }
+        } else if(state == DO_NOTHING && !isSetup && finished){
+            stopContButton.disabled = true;
+        } else if(state == DO_NOTHING && !isSetup){
+            stopContButton.disabled = false;
+            stopContButton.firstChild.data = 'continue';
+        } 
+    })();
+
     function buttonClick(statePara){
-        state = statePara;
+        if(statePara == 0 /*if STOP pressed */ && stopCounter % 2 == 0){
+            lastState = state;
+            state = statePara;
+            stopCounter++;
+        } else if(statePara == 0)  /*if CONTINUE pressed */ {
+            state = lastState;
+            stopCounter++;
+        } else {
+            state = statePara;
+        }
+        if(state != DO_NOTHING){
+            var startButtons = document.getElementsByClassName('startButton');
+            for(var i = 0; i < startButtons.length; i++){
+                startButtons[i].disabled = true;
+            }
+        }
+
+        if(state == DO_NOTHING && statePara == -1){
+            var startButtons = document.getElementsByClassName('startButton');
+            for(var i = 0; i < startButtons.length; i++){
+                startButtons[i].disabled = false;
+            }
+        }
+    }
+    if(state != DO_NOTHING){
+        document.getElementsByClassName('startButton');
     }
 </script>
 </html>
