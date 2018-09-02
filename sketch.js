@@ -22,8 +22,7 @@ function setup() {
 
     currentRadius = 0;
 
-    DrawCirle(300, 300, 150);
-
+    //DrawCirle(300, 300, 150);
     //default state
     state = DO_NOTHING
 }
@@ -63,7 +62,7 @@ function draw() {
 var DrawCirle = function (x0, y0, radius) {
     stroke(radius % 255);
 
-    point(x0, y0);
+    //point(x0, y0);
 
     var x = radius;
     var y = 0;
