@@ -40,17 +40,23 @@ function draw() {
 
     } else if (state == CIRCLE_MODE) {
         isSetup = false;
-        if (currentRadius <= 800 && CIRCLE_MODE == 1) {
+        if (currentRadius <= 2000 && CIRCLE_MODE == 1) {
             
-            currentRadius += 1;
-            DrawCirle(600, 350, currentRadius);
-            /*
-            currentRadius += 5;
+
+            //DrawCirle(600, 350, currentRadius);
+            //currentRadius += 1;
+            
+            
             DrawCirle(600, 150, currentRadius);
             DrawCirle(600, 550, currentRadius);
-            DrawCirle(200, 350, currentRadius);
-            DrawCirle(1000, 350, currentRadius);
-            */
+            DrawCirle(400, 350, currentRadius);
+            DrawCirle(800, 350, currentRadius);
+            DrawCirle(400, 150, currentRadius);
+            DrawCirle(400, 550, currentRadius);
+            DrawCirle(800, 550, currentRadius);
+            DrawCirle(800, 150, currentRadius);
+            currentRadius += 5;
+            
         } else {
             currentRadius = 1;
             finish();
