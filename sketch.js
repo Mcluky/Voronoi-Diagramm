@@ -6,8 +6,11 @@ var state;
 var currentRadius;
 var isSetup;
 var finished;
+var amountPoints;
+var points;
 
 const DO_NOTHING = 0;
+const GENERATE_POINTS = -2;
 const RESET = -1;
 const CIRCLE_MODE = 1;
 
@@ -16,6 +19,11 @@ function setup() {
     isSetup = true;
     stopCounter = 0;
     finished = false;
+    if(!amountPoints){
+        //default value amount points
+        amountPoints = 10;
+    }
+
     canvas = createCanvas(constWidth, constHeight);
     canvas.parent("canvas");
     angleMode(DEGREES);
@@ -27,7 +35,7 @@ function setup() {
 
     //DrawCirle(300, 300, 150);
     //default state
-    state = DO_NOTHING
+    state = GENERATE_POINTS
 }
 
 function draw() {
@@ -42,33 +50,39 @@ function draw() {
     //ellipse(mouseX, mouseY, 80, 80);
     if (state == DO_NOTHING) {
 
+    } else if(state == GENERATE_POINTS){
+
     } else if (state == CIRCLE_MODE) {
         isSetup = false;
-        if (currentRadius <= 2000 && CIRCLE_MODE == 1) {
-            
-
-            //DrawCirle(600, 350, currentRadius);
-            //currentRadius += 1;
-            
-            DrawCirle(600, 150, currentRadius);
-            DrawCirle(600, 550, currentRadius);
-            DrawCirle(400, 350, currentRadius);
-            DrawCirle(800, 350, currentRadius);
-            DrawCirle(400, 150, currentRadius);
-            DrawCirle(400, 550, currentRadius);
-            DrawCirle(800, 550, currentRadius);
-            DrawCirle(800, 150, currentRadius);
-            currentRadius += 1;
-            
-        } else {
-            currentRadius = 1;
-            finish();
-            //setup();
-
-        }
+        circleModeFun();
     } else if (state == RESET) {
         state = DO_NOTHING;
         setup();
+    }
+}
+
+function circleModeFun(){
+    if (currentRadius <= 2000 && CIRCLE_MODE == 1) {
+            
+
+        //DrawCirle(600, 350, currentRadius);
+        //currentRadius += 1;
+        
+        DrawCirle(600, 150, currentRadius);
+        DrawCirle(600, 550, currentRadius);
+        DrawCirle(400, 350, currentRadius);
+        DrawCirle(800, 350, currentRadius);
+        DrawCirle(400, 150, currentRadius);
+        DrawCirle(400, 550, currentRadius);
+        DrawCirle(800, 550, currentRadius);
+        DrawCirle(800, 150, currentRadius);
+        currentRadius += 1;
+        
+    } else {
+        currentRadius = 1;
+        finish();
+        //setup();
+
     }
 }
 
