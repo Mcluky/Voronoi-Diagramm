@@ -10,8 +10,8 @@
     <div id="container_box">
         <div id="canvas"></div>
         <div id="button_menue">
-            <p>How many Points?</p>
-            <input id="amountPoints" type="number">
+            <p class="margin">How many Points?</p>
+            <input class="margin" id="amountPointsInput" type="number">
             <button id="setAmountPoint" type="button" class="startButton" onclick="generatePoints()">Generate points</button>
             <button id="start_circle_mode" type="button" class="startButton" onclick="buttonClick(1)">Start Circle Mode</button>
             <button id="stop" type="button" onclick="buttonClick(0)">Stop</button>
@@ -74,7 +74,7 @@
         }
     }
     function generatePoints(){
-        amountPoints = document.getElementById("amountPoints").data
+        amountPoints = document.getElementById("amountPointsInput").value
         state = GENERATE_POINTS;
     }
 </script>

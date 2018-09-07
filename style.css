@@ -4,6 +4,12 @@ button{
     margin-left: 0.3em;
 }
 
+.margin {
+    width: 12rem;
+    margin-bottom: 0.3em;
+    margin-left: 0.3em;
+}
+
 #canvas{
     float: left;
 }

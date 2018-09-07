@@ -20,10 +20,6 @@ function setup() {
     isSetup = true;
     stopCounter = 0;
     finished = false;
-    if (!amountPoints) {
-        //default value amount points
-        amountPoints = 10;
-    }
 
     canvas = createCanvas(constWidth, constHeight);
     canvas.parent("canvas");
@@ -34,9 +30,13 @@ function setup() {
 
     currentRadius = 0;
 
-    //DrawCirle(300, 300, 150);
-    //default state
-    state = GENERATE_POINTS
+    if (!amountPoints) {
+        //default value amount points
+        amountPoints = 10;
+        state = GENERATE_POINTS
+    } else {
+        state = DRAW_RANDOM_POINTS
+    }
 }
 
 function draw() {
