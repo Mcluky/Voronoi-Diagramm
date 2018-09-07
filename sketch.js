@@ -31,7 +31,11 @@ function setup() {
 }
 
 function draw() {
+    background('#1e1e1e');
+    var fps = frameRate();
     stroke(255);
+    text("FPS: " + fps.toFixed(2), 10, height - 10);
+
     //point(mouseX, mouseY);
     //DrawCirle(300, 300, 100);
 
@@ -45,7 +49,6 @@ function draw() {
 
             //DrawCirle(600, 350, currentRadius);
             //currentRadius += 1;
-            
             
             DrawCirle(600, 150, currentRadius);
             DrawCirle(600, 550, currentRadius);
@@ -84,7 +87,6 @@ var DrawCirle = function (x0, y0, radius) {
     var radiusError = 1 - x;
 
     while (x >= y) {
-
         point(x + x0, y + y0);
         point(x + x0, y + y0 + 1);
         //point(x + x0, y + y0 - 1);
@@ -132,7 +134,6 @@ var DrawCirle = function (x0, y0, radius) {
         point(y + x0, -x + y0 - 1);
         point(y + x0 + 1, -x + y0);
         //point(y + x0 - 1, -x + y0);
-
         y++;
 
         if (radiusError < 0) {
