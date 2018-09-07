@@ -41,8 +41,6 @@ function setup() {
 
 function draw() {
     var fps = frameRate();
-    stroke(255);
-    text("FPS: " + fps.toFixed(2) + " / 60.00", 10, height - 10);
 
     //point(mouseX, mouseY);
     //DrawCirle(300, 300, 100);
@@ -66,6 +64,8 @@ function draw() {
         }
         state = DO_NOTHING;
     }
+    stroke(255);
+    text("FPS: " + fps.toFixed(2) + " / 60.00", 10, height - 10);
 }
 
 function generatePointsFun() {
@@ -83,12 +83,15 @@ function generatePointsFun() {
 
 function circleModeFun() {
     background('#1e1e1e');
-    if (currentRadius <= 2000 && CIRCLE_MODE == 1) {
+    if (currentRadius <= constHeight && CIRCLE_MODE == 1) {
 
+        for (var i = 0; i < points.length; i++) {
+            DrawCirle(points[i].x, points[i].y, currentRadius);
+        }
 
         //DrawCirle(600, 350, currentRadius);
         //currentRadius += 1;
-
+/*
         DrawCirle(600, 150, currentRadius);
         DrawCirle(600, 550, currentRadius);
         DrawCirle(400, 350, currentRadius);
@@ -97,6 +100,8 @@ function circleModeFun() {
         DrawCirle(400, 550, currentRadius);
         DrawCirle(800, 550, currentRadius);
         DrawCirle(800, 150, currentRadius);
+*/
+
         currentRadius += 1;
 
     } else {
