@@ -16,7 +16,7 @@ function setup() {
     isSetup = true;
     stopCounter = 0;
     finished = false;
-    canvas = createCanvas(constWidth, constHeight, WEBGL);
+    canvas = createCanvas(constWidth, constHeight);
     canvas.parent("canvas");
     angleMode(DEGREES);
     frameRate(60);
