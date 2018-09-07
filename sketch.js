@@ -7,7 +7,7 @@ var currentRadius;
 var isSetup;
 var finished;
 var amountPoints;
-var points;
+var points = [];
 
 const DO_NOTHING = 0;
 const GENERATE_POINTS = -2;
@@ -39,10 +39,10 @@ function setup() {
 }
 
 function draw() {
-    background('#1e1e1e');
+    //background('#1e1e1e');
     var fps = frameRate();
     stroke(255);
-    text("FPS: " + fps.toFixed(2), 10, height - 10);
+    text("FPS: " + fps.toFixed(2)+ " / 60.00" , 10, height - 10);
 
     //point(mouseX, mouseY);
     //DrawCirle(300, 300, 100);
@@ -51,7 +51,7 @@ function draw() {
     if (state == DO_NOTHING) {
 
     } else if(state == GENERATE_POINTS){
-
+        generatePointsFun();
     } else if (state == CIRCLE_MODE) {
         isSetup = false;
         circleModeFun();
@@ -59,6 +59,18 @@ function draw() {
         state = DO_NOTHING;
         setup();
     }
+}
+
+function generatePointsFun(){
+    for(var i = 0; i < amountPoints; i++){
+        var point = {
+            'x' : Math.floor((Math.random() * constWidth) + 0),
+            'y' : Math.floor((Math.random() * constHeight) + 0)
+        }
+        points.push(point);
+    }
+    console.log(points);
+    state = DO_NOTHING;
 }
 
 function circleModeFun(){
@@ -92,7 +104,7 @@ function finish(){
 }
 
 var DrawCirle = function (x0, y0, radius) {
-    stroke(radius % 255);
+    stroke(255);
 
     //point(x0, y0);
 
@@ -101,53 +113,29 @@ var DrawCirle = function (x0, y0, radius) {
     var radiusError = 1 - x;
 
     while (x >= y) {
-        point(x + x0, y + y0);
-        point(x + x0, y + y0 + 1);
-        //point(x + x0, y + y0 - 1);
-        //point(x + x0 - 1, y + y0);
+        point(x + x0, y + y0);        
         point(x + x0 + 1, y + y0);
 
         point(y + x0, x + y0);
-        point(y + x0, x + y0 + 1);
-        //point(y + x0, x + y0 - 1);
         point(y + x0 + 1, x + y0);
-        //point(y + x0 - 1, x + y0);
 
         point(-x + x0, y + y0);
-        point(-x + x0, y + y0 + 1);
-        //point(-x + x0, y + y0 - 1);
-        //point(-x + x0 + 1, y + y0);
         point(-x + x0 - 1, y + y0);
 
         point(-y + x0, x + y0);
-        point(-y + x0, x + y0 + 1);
-        //point(-y + x0, x + y0 - 1);
-        //point(-y + x0 + 1, x + y0);
         point(-y + x0 - 1, x + y0);
 
         point(-x + x0, -y + y0);
-        //point(-x + x0, -y + y0 + 1);
-        point(-x + x0, -y + y0 - 1);
-        //point(-x + x0 + 1, -y + y0);
         point(-x + x0 - 1, -y + y0);
 
         point(-y + x0, -x + y0);
-        //point(-y + x0, -x + y0 + 1);
-        point(-y + x0, -x + y0 - 1);
-        //point(-y + x0 + 1, -x + y0);
         point(-y + x0 - 1, -x + y0);
 
         point(x + x0, -y + y0);
-        //point(x + x0, -y + y0 + 1);
-        point(x + x0, -y + y0 - 1);
         point(x + x0 + 1, -y + y0);
-        //point(x + x0 - 1, -y + y0);
 
         point(y + x0, -x + y0);
-        //point(y + x0, -x + y0 + 1);
-        point(y + x0, -x + y0 - 1);
         point(y + x0 + 1, -x + y0);
-        //point(y + x0 - 1, -x + y0);
         y++;
 
         if (radiusError < 0) {
