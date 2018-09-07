@@ -16,7 +16,7 @@ function setup() {
     isSetup = true;
     stopCounter = 0;
     finished = false;
-    canvas = createCanvas(constWidth, constHeight);
+    canvas = createCanvas(constWidth, constHeight, WEBGL);
     canvas.parent("canvas");
     angleMode(DEGREES);
     frameRate(60);
@@ -55,7 +55,7 @@ function draw() {
             DrawCirle(400, 550, currentRadius);
             DrawCirle(800, 550, currentRadius);
             DrawCirle(800, 150, currentRadius);
-            currentRadius += 5;
+            currentRadius += 1;
             
         } else {
             currentRadius = 1;
@@ -84,7 +84,6 @@ var DrawCirle = function (x0, y0, radius) {
     var radiusError = 1 - x;
 
     while (x >= y) {
-
 
         point(x + x0, y + y0);
         point(x + x0, y + y0 + 1);
