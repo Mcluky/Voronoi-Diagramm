@@ -31,7 +31,7 @@ function setup() {
 }
 
 function draw() {
-    //background('#1e1e1e');
+    background('#1e1e1e');
     var fps = frameRate();
     stroke(255);
     text("FPS: " + fps.toFixed(2)+ " / 60.00" , 10, height - 10);
@@ -49,23 +49,23 @@ function draw() {
             //DrawCirle(600, 350, currentRadius);
             //currentRadius += 1;
             
-            /*DrawCirle(600, 150, currentRadius);
+            DrawCirle(600, 150, currentRadius);
             DrawCirle(600, 550, currentRadius);
             DrawCirle(400, 350, currentRadius);
             DrawCirle(800, 350, currentRadius);
             DrawCirle(400, 150, currentRadius);
             DrawCirle(400, 550, currentRadius);
             DrawCirle(800, 550, currentRadius);
-            DrawCirle(800, 150, currentRadius);*/
-            //DrawCirle(500, 350, currentRadius);
-            DrawCirle(700, 350, currentRadius);
+            DrawCirle(800, 150, currentRadius);
+            DrawCirle(600, 350, currentRadius);/*
+            DrawCirle(500, 350, currentRadius);
+            DrawCirle(700, 350, currentRadius);*/
             currentRadius += 1;
             
         } else {
             currentRadius = 1;
             finish();
             //setup();
-
         }
     } else if (state == RESET) {
         state = DO_NOTHING;
