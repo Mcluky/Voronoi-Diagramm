@@ -39,7 +39,7 @@ function setup() {
 }
 
 function draw() {
-    //background('#1e1e1e');
+    background('#1e1e1e');
     var fps = frameRate();
     stroke(255);
     text("FPS: " + fps.toFixed(2)+ " / 60.00" , 10, height - 10);
