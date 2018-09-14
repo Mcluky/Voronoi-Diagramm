@@ -60,7 +60,7 @@ function draw() {
         background('#1e1e1e');
         console.log("----");
         for (var i = 0; i < points.length; i++) {
-            DrawCirle(points[i].x, points[i].y, 1);
+            point(points[i].x, points[i].y);
         }
         state = DO_NOTHING;
     }
