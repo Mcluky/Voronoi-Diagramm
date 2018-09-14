@@ -22,12 +22,8 @@ function setup() {
     stopCounter = 0;
     finished = false;
 
-<<<<<<< HEAD
-    pixelDensity(1)
-=======
     pxlArray = createArray(constWidth, constHeight);
 
->>>>>>> 5c454047d5cdbfe13afdd1a53786490a85409f0d
     canvas = createCanvas(constWidth, constHeight);
     canvas.parent("canvas");
     angleMode(DEGREES);
