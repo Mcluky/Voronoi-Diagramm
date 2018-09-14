@@ -21,6 +21,7 @@ function setup() {
     stopCounter = 0;
     finished = false;
 
+    pixelDensity(1)
     canvas = createCanvas(constWidth, constHeight);
     canvas.parent("canvas");
     angleMode(DEGREES);
