@@ -8,7 +8,7 @@ var isSetup;
 var finished;
 var amountPoints;
 var points = [];
-var pxlArray;
+var pxlArray = [];
 
 const DO_NOTHING = 0;
 const DRAW_RANDOM_POINTS = -3;
