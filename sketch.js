@@ -8,6 +8,7 @@ var isSetup;
 var finished;
 var amountPoints;
 var points = [];
+var pxlArray = [];
 
 const DO_NOTHING = 0;
 const DRAW_RANDOM_POINTS = -3;
@@ -21,7 +22,12 @@ function setup() {
     stopCounter = 0;
     finished = false;
 
+<<<<<<< HEAD
     pixelDensity(1)
+=======
+    pxlArray = createArray(constWidth, constHeight);
+
+>>>>>>> 5c454047d5cdbfe13afdd1a53786490a85409f0d
     canvas = createCanvas(constWidth, constHeight);
     canvas.parent("canvas");
     angleMode(DEGREES);
@@ -163,3 +169,13 @@ var DrawCirle = function (x0, y0, radius) {
     }
 };
 
+function createArray(length) {
+    arr = new Array(length || 0),
+    i = length;
+  
+    if (arguments.length > 1) {
+      var args = Array.prototype.slice.call(arguments, 1);
+      while (i--) arr[length - 1 - i] = createArray.apply(this, args);
+    }  
+    return arr;
+}
