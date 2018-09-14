@@ -8,7 +8,7 @@ var isSetup;
 var finished;
 var amountPoints;
 var points = [];
-var pxlArray = [];
+var pxlArray;
 
 const DO_NOTHING = 0;
 const DRAW_RANDOM_POINTS = -3;
@@ -166,12 +166,13 @@ var DrawCirle = function (x0, y0, radius) {
 };
 
 function createArray(length) {
-    arr = new Array(length || 0),
-    i = length;
-  
+    var arr = new Array(length || 0),
+        i = length;
+
     if (arguments.length > 1) {
-      var args = Array.prototype.slice.call(arguments, 1);
-      while (i--) arr[length - 1 - i] = createArray.apply(this, args);
-    }  
+        var args = Array.prototype.slice.call(arguments, 1);
+        while(i--) arr[length-1 - i] = createArray.apply(this, args);
+    }
+
     return arr;
 }
