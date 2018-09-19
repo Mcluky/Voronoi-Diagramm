@@ -1,1 +1,1 @@
-Voronoi Diagramm by Niklas van der Heide und Lukas Meili.
+Voronoi diagram by Niklas van der Heide and Lukas Meili.
