@@ -6,8 +6,8 @@ var state;
 var currentRadius;
 var isSetup;
 var finished;
-var amountPoints;
-var points = [];
+var amountCircles;
+var circles = [];
 var pxlArray;
 
 const DO_NOTHING = 0;
@@ -20,12 +20,13 @@ const PXL_STATE_EMPTY = 0;
 const PIXEL_COLOR= "1e1e1e";
 const PIXEL_BORDER_COLOR = "fffff";
 const PXL_STATE_BORDER = -1;
+
 function setup() {
     isSetup = true;
     stopCounter = 0;
     finished = false;
 
-    pxlArray = createArray(constWidth, constHeight);
+    pxlArray = createPxlArray(constWidth, constHeight);
     for(x=0; x<constWidth; x++){
         for(y=0; y<constWidth; y++){
             pxlArray[x][y] = new Pixel(PXL_STATE_EMPTY, PIXEL_COLOR)
@@ -41,9 +42,9 @@ function setup() {
 
     currentRadius = 0;
 
-    if (!amountPoints) {
+    if (!amountCircles) {
         //default value amount points
-        amountPoints = 10;
+        amountCircles = 10;
         state = GENERATE_POINTS
     } else {
         state = DRAW_RANDOM_POINTS
@@ -60,7 +61,7 @@ function draw() {
     if (state == DO_NOTHING) {
 
     } else if (state == GENERATE_POINTS) {
-        generatePointsFun();
+        generateCirclesFun();
     } else if (state == CIRCLE_MODE) {
         isSetup = false;
         circleModeFun();
@@ -70,8 +71,8 @@ function draw() {
     } else if (state == DRAW_RANDOM_POINTS) {
         background('#1e1e1e');
         console.log("draw random points");
-        for (var i = 0; i < points.length; i++) {
-            point(points[i].x, points[i].y);
+        for (var i = 0; i < circles.length; i++) {
+            point(circles[i].x, circles[i].y);
         }
         state = DO_NOTHING;
     }
@@ -79,14 +80,14 @@ function draw() {
     text("FPS: " + fps.toFixed(2) + " / 60.00", 10, height - 10);
 }
 
-function generatePointsFun() {
-    points = [];
-    for (var i = 0; i < amountPoints; i++) {
-        var point = {
+function generateCirclesFun() {
+    circles = [];
+    for (var i = 0; i < amountCircles; i++) {
+        var circle = {
             'x': Math.floor((Math.random() * constWidth) + 0),
             'y': Math.floor((Math.random() * constHeight) + 0)
         }
-        points.push(point);
+        circles.push(circle);
     }
     state = DRAW_RANDOM_POINTS;
 }
@@ -95,8 +96,8 @@ function circleModeFun() {
     background('#1e1e1e');
     if (currentRadius <= constHeight && CIRCLE_MODE == 1) {
 
-        for (var i = 0; i < points.length; i++) {
-            DrawCirle(points[i].x, points[i].y, currentRadius);
+        for (var i = 0; i < circles.length; i++) {
+            DrawCirle(circles[i].x, circles[i].y, currentRadius);
         }
 
         //DrawCirle(600, 350, currentRadius);
@@ -118,7 +119,6 @@ function circleModeFun() {
         currentRadius = 1;
         finish();
         //setup();
-
     }
 }
 
@@ -172,12 +172,12 @@ var DrawCirle = function (x0, y0, radius) {
     }
 };
 
-function createArray(length) {
+function createPxlArray(length) {
     var arr = new Array(length || 0),
         i = length;
     if (arguments.length > 1) {
         var args = Array.prototype.slice.call(arguments, 1);
-        while(i--) arr[length-1 - i] = createArray.apply(this, args);
+        while(i--) arr[length-1 - i] = createPxlArray.apply(this, args);
     }
     return arr;
 }
