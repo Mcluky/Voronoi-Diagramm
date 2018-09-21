@@ -6,13 +6,13 @@ var state;
 var currentRadius;
 var isSetup;
 var finished;
-var amountPoints;
-var points = [];
+var amountCircles;
+var circles = [];
 var pxlArray;
 
 const DO_NOTHING = 0;
-const DRAW_RANDOM_POINTS = -3;
-const GENERATE_POINTS = -2;
+const DRAW_CIRCLES = -3;
+const GENERATE_CIRCLES = -2;
 const RESET = -1;
 const CIRCLE_MODE = 1;
 
@@ -20,6 +20,7 @@ const PXL_STATE_EMPTY = 0;
 const PIXEL_COLOR= "1e1e1e";
 const PIXEL_BORDER_COLOR = "fffff";
 const PXL_STATE_BORDER = -1;
+
 function setup() {
     isSetup = true;
     stopCounter = 0;
@@ -41,12 +42,12 @@ function setup() {
 
     currentRadius = 0;
 
-    if (!amountPoints) {
-        //default value amount points
-        amountPoints = 10;
-        state = GENERATE_POINTS
+    if (!amountCircles) {
+        //default value amount cirlces
+        amountCircles = 10;
+        state = GENERATE_CIRCLES
     } else {
-        state = DRAW_RANDOM_POINTS
+        state = DRAW_CIRCLES
     }
 }
 
@@ -59,7 +60,7 @@ function draw() {
     //ellipse(mouseX, mouseY, 80, 80);
     if (state == DO_NOTHING) {
 
-    } else if (state == GENERATE_POINTS) {
+    } else if (state == GENERATE_CIRCLES) {
         generatePointsFun();
     } else if (state == CIRCLE_MODE) {
         isSetup = false;
@@ -67,11 +68,11 @@ function draw() {
     } else if (state == RESET) {
         state = DO_NOTHING;
         setup();
-    } else if (state == DRAW_RANDOM_POINTS) {
+    } else if (state == DRAW_CIRCLES) {
         background('#1e1e1e');
-        console.log("draw random points");
-        for (var i = 0; i < points.length; i++) {
-            point(points[i].x, points[i].y);
+        console.log("draw random cirlces");
+        for (var i = 0; i < circles.length; i++) {
+            point(circles[i].getCenterX(), circles[i].getCenterY());
         }
         state = DO_NOTHING;
     }
@@ -80,23 +81,20 @@ function draw() {
 }
 
 function generatePointsFun() {
-    points = [];
-    for (var i = 0; i < amountPoints; i++) {
-        var point = {
-            'x': Math.floor((Math.random() * constWidth) + 0),
-            'y': Math.floor((Math.random() * constHeight) + 0)
-        }
-        points.push(point);
+    circles = [];
+    for (var i = 0; i < amountCircles; i++) {
+        var cirlce = new Circle(Math.floor((Math.random() * constWidth) + 0), Math.floor((Math.random() * constHeight) + 0), 0, PIXEL_COLOR)
+        circles.push(cirlce);
     }
-    state = DRAW_RANDOM_POINTS;
+    state = DRAW_CIRCLES;
 }
 
 function circleModeFun() {
     background('#1e1e1e');
     if (currentRadius <= constHeight && CIRCLE_MODE == 1) {
 
-        for (var i = 0; i < points.length; i++) {
-            DrawCirle(points[i].x, points[i].y, currentRadius);
+        for (var i = 0; i < circles.length; i++) {
+            DrawCirle(circles[i].getCenterX(), circles[i].getCenterY(), currentRadius);
         }
 
         //DrawCirle(600, 350, currentRadius);
