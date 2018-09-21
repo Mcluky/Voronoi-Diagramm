@@ -16,13 +16,21 @@ const GENERATE_POINTS = -2;
 const RESET = -1;
 const CIRCLE_MODE = 1;
 
-
+const PXL_STATE_EMPTY = 0;
+const PIXEL_COLOR= "1e1e1e";
+const PIXEL_BORDER_COLOR = "fffff";
+const PXL_STATE_BORDER = -1;
 function setup() {
     isSetup = true;
     stopCounter = 0;
     finished = false;
 
     pxlArray = createArray(constWidth, constHeight);
+    for(x=0; x<constWidth; x++){
+        for(y=0; y<constWidth; y++){
+            pxlArray[x][y] = new Pixel(PXL_STATE_EMPTY, PIXEL_COLOR)
+        }
+    }
 
     canvas = createCanvas(constWidth, constHeight);
     canvas.parent("canvas");
