@@ -26,7 +26,7 @@ function setup() {
     stopCounter = 0;
     finished = false;
 
-    pxlArray = createArray(constWidth, constHeight);
+    pxlArray = createPxlArray(constWidth, constHeight);
     for(x=0; x<constWidth; x++){
         for(y=0; y<constWidth; y++){
             pxlArray[x][y] = new Pixel(PXL_STATE_EMPTY, PIXEL_COLOR)
@@ -61,7 +61,7 @@ function draw() {
     if (state == DO_NOTHING) {
 
     } else if (state == GENERATE_CIRCLES) {
-        generatePointsFun();
+        generateCirclesFun();
     } else if (state == CIRCLE_MODE) {
         isSetup = false;
         circleModeFun();
@@ -80,7 +80,7 @@ function draw() {
     text("FPS: " + fps.toFixed(2) + " / 60.00", 10, height - 10);
 }
 
-function generatePointsFun() {
+function generateCircleFun() {
     circles = [];
     for (var i = 0; i < amountCircles; i++) {
         var cirlce = new Circle(Math.floor((Math.random() * constWidth) + 0), Math.floor((Math.random() * constHeight) + 0), 0, PIXEL_COLOR)
@@ -116,7 +116,6 @@ function circleModeFun() {
         currentRadius = 1;
         finish();
         //setup();
-
     }
 }
 
@@ -170,12 +169,12 @@ var DrawCirle = function (x0, y0, radius) {
     }
 };
 
-function createArray(length) {
+function createPxlArray(length) {
     var arr = new Array(length || 0),
         i = length;
     if (arguments.length > 1) {
         var args = Array.prototype.slice.call(arguments, 1);
-        while(i--) arr[length-1 - i] = createArray.apply(this, args);
+        while(i--) arr[length-1 - i] = createPxlArray.apply(this, args);
     }
     return arr;
 }
