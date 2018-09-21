@@ -12,9 +12,9 @@
     <div id="container_box">
         <div id="canvas"></div>
         <div id="button_menue">
-            <label class="margin" style="color: #ffffff" for="amountPointsInput">How many Points?</label>
-            <input class="margin size" id="amountPointsInput" value="10" type="number">
-            <button id="setAmountPoint" type="button" class="startButton" onclick="generatePoints()">Generate points</button>
+            <label class="margin" style="color: #ffffff" for="amountCirclesInput">How many Circles?</label>
+            <input class="margin size" id="amountCirclesInput" value="10" type="number">
+            <button id="setAmountCircle" type="button" class="startButton" onclick="generateCircles()">Generate Circles</button>
             <button id="start_circle_mode" type="button" class="startButton" onclick="buttonClick(1)">Start Circle Mode</button>
             <button id="stop" type="button" onclick="buttonClick(0)">Stop</button>
             <button id="reset" type="button" onclick="buttonClick(-1)">Reset</button>
@@ -75,9 +75,11 @@
             }
         }
     }
-    function generatePoints(){
-        amountPoints = document.getElementById("amountPointsInput").value
+
+    function generateCircles(){
+        amountCircles = document.getElementById("amountCirclesInput").value
         state = GENERATE_CIRCLES;
     }
+
 </script>
 </html>

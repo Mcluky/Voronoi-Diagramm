@@ -17,8 +17,8 @@ const RESET = -1;
 const CIRCLE_MODE = 1;
 
 const PXL_STATE_EMPTY = 0;
-const PIXEL_COLOR= "1e1e1e";
-const PIXEL_BORDER_COLOR = "fffff";
+const PXL_DEFAULT_COLOR= "1e1e1e";
+const PXL_BORDER_COLOR = "fffff";
 const PXL_STATE_BORDER = -1;
 
 function setup() {
@@ -29,7 +29,7 @@ function setup() {
     pxlArray = createPxlArray(constWidth, constHeight);
     for(x=0; x<constWidth; x++){
         for(y=0; y<constWidth; y++){
-            pxlArray[x][y] = new Pixel(PXL_STATE_EMPTY, PIXEL_COLOR)
+            pxlArray[x][y] = new Pixel(PXL_STATE_EMPTY, PXL_DEFAULT_COLOR)
         }
     }
 
@@ -80,10 +80,10 @@ function draw() {
     text("FPS: " + fps.toFixed(2) + " / 60.00", 10, height - 10);
 }
 
-function generateCircleFun() {
+function generateCirclesFun() {
     circles = [];
     for (var i = 0; i < amountCircles; i++) {
-        var cirlce = new Circle(Math.floor((Math.random() * constWidth) + 0), Math.floor((Math.random() * constHeight) + 0), 0, PIXEL_COLOR)
+        var cirlce = new Circle(Math.floor((Math.random() * constWidth) + 0), Math.floor((Math.random() * constHeight) + 0), 0, PXL_DEFAULT_COLOR)
         circles.push(cirlce);
     }
     state = DRAW_CIRCLES;
