@@ -17,7 +17,7 @@ const RESET = -1;
 const CIRCLE_MODE = 1;
 
 const PXL_EMPTY = 0;
-const PXL_NEWCIRCLE = 1;
+var PXL_CIRCLEOUTERBOUND = 0;
 const PXL_BORDER = -1;
 
 function setup() {
@@ -64,7 +64,7 @@ function draw() {
         setup();
     } else if (state == DRAW_RANDOM_POINTS) {
         background('#1e1e1e');
-        console.log("----");
+        console.log("draw random points");
         for (var i = 0; i < points.length; i++) {
             point(points[i].x, points[i].y);
         }
@@ -81,7 +81,6 @@ function generatePointsFun() {
             'x': Math.floor((Math.random() * constWidth) + 0),
             'y': Math.floor((Math.random() * constHeight) + 0)
         }
-
         points.push(point);
     }
     state = DRAW_RANDOM_POINTS;
@@ -124,8 +123,8 @@ function finish() {
 }
 
 var DrawCirle = function (x0, y0, radius) {
-    stroke(255);
 
+    stroke(255);
     //point(x0, y0);
 
     var x = radius;
