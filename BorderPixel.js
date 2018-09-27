@@ -18,9 +18,9 @@ class BorderPixel{
         this.color = color;
     }
     getY(){
-        return y;
+        return this.y;
     }
     getX(){
-        return x;
+        return this.x;
     }
 }

@@ -28,7 +28,7 @@ function setup() {
     stopCounter = 0;
     finished = false;
     borderPxl = [];
-    //pixelDensity(1);
+    pixelDensity(1);
 
     pxlArray = createPxlArray(constWidth, constHeight);
     for (x = 0; x < constWidth; x++) {
@@ -105,11 +105,11 @@ function generateCirclesFun() {
 
 function circleModeFun() {
     background('#1e1e1e');
+    loadPixels();
     if (currentRadius <= constHeight && CIRCLE_MODE == 1) {
         for (var i = 0; i < circles.length; i++) {
             DrawCircleInArrayAndCanvas(circles[i].getCenterX(), circles[i].getCenterY(), currentRadius, circles[i].getColor());
         }
-        //DOES NOT WORK IDK WHY AH
         drawBorderPixel();
         updatePixels();
 
@@ -184,24 +184,28 @@ var setPixelInArrayAndCanvas = function (x, y, state, color) {
             //detect if Pixel emtpy
             pxl.setState(state);
             pxl.setColor(color);
-            set(x, y, PIXEL_ACTIVE_COLOR);
+
+            var index = ((x + y * constWidth) * 4);
+            pixels[index] = 255;
+            pixels[index + 1] = 255;
+            pixels[index + 2] = 255;
+            pixels[index + 3] = 255;
+            //set(x, y, PIXEL_ACTIVE_COLOR);
         }
     }
 }
 
 var drawBorderPixel = function () {
-    //todo replace with pixel
-    //loadPixels();
     for (var i = 0; i < borderPxl.length; i++) {
         var tmpBorderPxl = borderPxl[i];
-        set(tmpBorderPxl.getX(), tmpBorderPxl.getY(), tmpBorderPxl.getColor())
-        /*
-        var index = ((x + y * constWidth) * 4) * pixelDensity();
+        //set(tmpBorderPxl.getX(), tmpBorderPxl.getY(), tmpBorderPxl.getColor())
+        
+        var index = ((tmpBorderPxl.getX() + tmpBorderPxl.getY() * constWidth) * 4);
         pixels[index] = 255;
         pixels[index + 1] = 255;
         pixels[index + 2] = 255;
         pixels[index + 3] = 255;
-        */
+        
     }
     //updatePixels();
 }
