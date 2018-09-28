@@ -91,9 +91,12 @@ function draw() {
 
 
 function drawPoints(){
+    push();
+    rectMode(RADIUS);
     for (var i = 0; i < circles.length; i++) {
         ellipse(circles[i].getCenterX(), circles[i].getCenterY(), 2, 2)
     }
+    pop();
 }
 
 
