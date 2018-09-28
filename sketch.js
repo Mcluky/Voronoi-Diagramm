@@ -19,8 +19,14 @@ const CIRCLE_MODE = 1;
 
 const PXL_STATE_EMPTY = 0;
 const STANDART_PXL_COLOR = "1e1e1e";
-const BORDER_PXL_COLOR = "fffff";
-const PIXEL_ACTIVE_COLOR = "fffff";
+const STANDART_PXL_COLOR_RGB = hexToRgb(STANDART_PXL_COLOR);
+
+const BORDER_PXL_COLOR = "ff0000";
+const BORDER_PXL_COLOR_RGB = hexToRgb(BORDER_PXL_COLOR);
+
+const PIXEL_ACTIVE_COLOR = "ffffff";
+const PIXEL_ACTIVE_COLOR_RGB = hexToRgb(PIXEL_ACTIVE_COLOR);
+
 const PXL_STATE_BORDER = -1;
 
 function setup() {
@@ -75,9 +81,7 @@ function draw() {
     } else if (state == DRAW_CIRCLES) {
         background('#1e1e1e');
         console.log("draw random cirlces");
-        for (var i = 0; i < circles.length; i++) {
-            point(circles[i].getCenterX(), circles[i].getCenterY());
-        }
+        drawPoints();
         state = DO_NOTHING;
     }
     stroke(255);
@@ -86,7 +90,11 @@ function draw() {
 
 
 
-
+function drawPoints(){
+    for (var i = 0; i < circles.length; i++) {
+        ellipse(circles[i].getCenterX(), circles[i].getCenterY(), 2, 2)
+    }
+}
 
 
 function generateCirclesFun() {
@@ -100,18 +108,16 @@ function generateCirclesFun() {
 
 
 
-
-
-
 function circleModeFun() {
     background('#1e1e1e');
     loadPixels();
     if (currentRadius <= constHeight && CIRCLE_MODE == 1) {
         for (var i = 0; i < circles.length; i++) {
-            DrawCircleInArrayAndCanvas(circles[i].getCenterX(), circles[i].getCenterY(), currentRadius, circles[i].getColor());
+            DrawCircleInArrayAndCanvas(circles[i].getCenterX(), circles[i].getCenterY(), currentRadius, circles[i].getColor(), circles[i]);
         }
         drawBorderPixel();
         updatePixels();
+        drawPoints();
 
         currentRadius += 1;
     } else {
@@ -129,35 +135,35 @@ function finish() {
 
 
 
-var DrawCircleInArrayAndCanvas = function (x0, y0, radius, color) {
+var DrawCircleInArrayAndCanvas = function (x0, y0, radius, color, circle) {
     var x = radius;
     var y = 0;
     var radiusError = 1 - x;
 
     while (x >= y) {
-        setPixelInArrayAndCanvas(x + x0, y + y0, radius, color);
-        setPixelInArrayAndCanvas(x + x0 + 1, y + y0, radius, color);
+        setPixelInArrayAndCanvas(x + x0, y + y0, radius, color, circle);
+        setPixelInArrayAndCanvas(x + x0 + 1, y + y0, radius, color, circle);
 
-        setPixelInArrayAndCanvas(y + x0, x + y0, radius, color);
-        setPixelInArrayAndCanvas(y + x0 + 1, x + y0, radius, color);
+        setPixelInArrayAndCanvas(y + x0, x + y0, radius, color, circle);
+        setPixelInArrayAndCanvas(y + x0 + 1, x + y0, radius, color, circle);
 
-        setPixelInArrayAndCanvas(-x + x0, y + y0, radius, color);
-        setPixelInArrayAndCanvas(-x + x0 - 1, y + y0, radius, color);
+        setPixelInArrayAndCanvas(-x + x0, y + y0, radius, color, circle);
+        setPixelInArrayAndCanvas(-x + x0 - 1, y + y0, radius, color, circle);
 
-        setPixelInArrayAndCanvas(-y + x0, x + y0, radius, color);
-        setPixelInArrayAndCanvas(-y + x0 - 1, x + y0, radius, color);
+        setPixelInArrayAndCanvas(-y + x0, x + y0, radius, color, circle);
+        setPixelInArrayAndCanvas(-y + x0 - 1, x + y0, radius, color, circle);
 
-        setPixelInArrayAndCanvas(-x + x0, -y + y0, radius, color);
-        setPixelInArrayAndCanvas(-x + x0 - 1, -y + y0, radius, color);
+        setPixelInArrayAndCanvas(-x + x0, -y + y0, radius, color, circle);
+        setPixelInArrayAndCanvas(-x + x0 - 1, -y + y0, radius, color, circle);
 
-        setPixelInArrayAndCanvas(-y + x0, -x + y0, radius, color);
-        setPixelInArrayAndCanvas(-y + x0 - 1, -x + y0, radius, color);
+        setPixelInArrayAndCanvas(-y + x0, -x + y0, radius, color, circle);
+        setPixelInArrayAndCanvas(-y + x0 - 1, -x + y0, radius, color, circle);
 
-        setPixelInArrayAndCanvas(x + x0, -y + y0, radius, color);
-        setPixelInArrayAndCanvas(x + x0 + 1, -y + y0, radius, color);
+        setPixelInArrayAndCanvas(x + x0, -y + y0, radius, color, circle);
+        setPixelInArrayAndCanvas(x + x0 + 1, -y + y0, radius, color, circle);
 
-        setPixelInArrayAndCanvas(y + x0, -x + y0, radius, color);
-        setPixelInArrayAndCanvas(y + x0 + 1, -x + y0, radius, color);
+        setPixelInArrayAndCanvas(y + x0, -x + y0, radius, color, circle);
+        setPixelInArrayAndCanvas(y + x0 + 1, -x + y0, radius, color, circle);
 
         y++;
 
@@ -171,24 +177,28 @@ var DrawCircleInArrayAndCanvas = function (x0, y0, radius, color) {
     }
 }
 
-var setPixelInArrayAndCanvas = function (x, y, state, color) {
+var setPixelInArrayAndCanvas = function (x, y, state, color, circle) {
     if (x >= 0 && x < constWidth && y >= 0 && y < constHeight) {
         var pxl = pxlArray[x][y];
-        if (pxl.getState() == state || pxl.getState() == PXL_STATE_BORDER) {
+        //makes wall "bigger"
+        if ((pxl.getState() == state /*|| pxl.getState()+1 == state*/) && pxl.getCircle() !== circle) {
             //detect if border Pixel
             pxl.setState(PXL_STATE_BORDER);
             pxl.setColor(BORDER_PXL_COLOR);
-            //todo replace with pixel
+            pxl.setCircle(circle);
+            
             borderPxl.push(new BorderPixel(x, y, PXL_STATE_BORDER, BORDER_PXL_COLOR));
         } else if (pxl.getState() == PXL_STATE_EMPTY) {
             //detect if Pixel emtpy
             pxl.setState(state);
             pxl.setColor(color);
+            pxl.setCircle(circle);
 
+            //active Pixels
             var index = ((x + y * constWidth) * 4);
-            pixels[index] = 255;
-            pixels[index + 1] = 255;
-            pixels[index + 2] = 255;
+            pixels[index] = PIXEL_ACTIVE_COLOR_RGB.r;
+            pixels[index + 1] = PIXEL_ACTIVE_COLOR_RGB.g;
+            pixels[index + 2] = PIXEL_ACTIVE_COLOR_RGB.b;
             pixels[index + 3] = 255;
             //set(x, y, PIXEL_ACTIVE_COLOR);
         }
@@ -198,12 +208,13 @@ var setPixelInArrayAndCanvas = function (x, y, state, color) {
 var drawBorderPixel = function () {
     for (var i = 0; i < borderPxl.length; i++) {
         var tmpBorderPxl = borderPxl[i];
+        var borderPxlColor = hexToRgb(tmpBorderPxl.getColor());
         //set(tmpBorderPxl.getX(), tmpBorderPxl.getY(), tmpBorderPxl.getColor())
         
         var index = ((tmpBorderPxl.getX() + tmpBorderPxl.getY() * constWidth) * 4);
-        pixels[index] = 255;
-        pixels[index + 1] = 255;
-        pixels[index + 2] = 255;
+        pixels[index] = borderPxlColor.r;
+        pixels[index + 1] = borderPxlColor.g;
+        pixels[index + 2] = borderPxlColor.b;
         pixels[index + 3] = 255;
         
     }
@@ -218,4 +229,13 @@ function createPxlArray(length) {
         while (i--) arr[length - 1 - i] = createPxlArray.apply(this, args);
     }
     return arr;
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
 }

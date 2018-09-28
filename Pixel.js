@@ -2,6 +2,7 @@ class Pixel{
     constructor(state, color){
         this.color = color;
         this.state = state;
+        this.circle;
     }
     getState(){
         return this.state
@@ -14,5 +15,11 @@ class Pixel{
     }
     setColor(color){
         this.color = color;
+    }
+    getCircle(){
+        return this.circle;
+    }
+    setCircle(circle){
+        this.circle = circle;
     }
 }
