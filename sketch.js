@@ -1,21 +1,37 @@
+//Voronoi diagram by Niklas van der Heide and Lukas Meili 
+//Project for Applied Mathematics 2018
+
+//Canvas size
 const constWidth = 1200;
 const constHeight = 700
+//canvas object
 var canvas;
 
+//The current state of the state machine
 var state;
+
+//The different states for the state machine
+//State for pausing the algorithm. 
+const DO_NOTHING = 0;
+//State for generating the circle objects with random center points
+const GENERATE_CIRCLES = -2;
+//State for drawing the center point of the circles
+const DRAW_CIRCLES = -3;
+const RESET = -1;
+const CIRCLE_MODE = 1;
+
+//Current radius for the circle 
 var currentRadius;
+//Flag if the program is set up (primarily only for the UI)
 var isSetup;
+//Flag if the algorithm is finished
 var finished;
+//How many circles should be generated. Is set in the UI
 var amountCircles;
+
 var circles = [];
 var pxlArray;
 var borderPxl = [];
-
-const DO_NOTHING = 0;
-const DRAW_CIRCLES = -3;
-const GENERATE_CIRCLES = -2;
-const RESET = -1;
-const CIRCLE_MODE = 1;
 
 const PXL_STATE_EMPTY = 0;
 const STANDART_PXL_COLOR = "1e1e1e";
@@ -90,7 +106,7 @@ function draw() {
 
 
 
-function drawPoints(){
+function drawPoints() {
     push();
     rectMode(RADIUS);
     for (var i = 0; i < circles.length; i++) {
@@ -114,27 +130,36 @@ function generateCirclesFun() {
 function circleModeFun() {
     background('#1e1e1e');
     loadPixels();
-    if (currentRadius <= constHeight && CIRCLE_MODE == 1) {
-        for (var i = 0; i < circles.length; i++) {
+    var finished = true;
+    for (var i = 0; i < circles.length; i++) {
+        if (!circles[i].surrounded) {
+            //set temporarly to true
+            circles[i].surrounded = true;
             DrawCircleInArrayAndCanvas(circles[i].getCenterX(), circles[i].getCenterY(), currentRadius, circles[i].getColor(), circles[i]);
         }
-        drawBorderPixel();
-        updatePixels();
-        drawPoints();
-
-        currentRadius += 1;
-    } else {
-        currentRadius = 1;
-        finish();
-        //setup();
+        //detect if all circles are surrounded
+        if (finished) {
+            finished = circles[i].surrounded;
+        }
     }
+    //check if it's finished
+    if (finished) {
+        state = DO_NOTHING;
+        for (var i = 0; i < circles.length; i++) {
+            circles[i].surrounded = false;
+        }
+    }
+    drawBorderPixel();
+    updatePixels();
+    drawPoints();
+
+    currentRadius += 1;
 }
 
 function finish() {
     finished = true;
     state = DO_NOTHING;
 }
-
 
 
 
@@ -183,14 +208,19 @@ var DrawCircleInArrayAndCanvas = function (x0, y0, radius, color, circle) {
 var setPixelInArrayAndCanvas = function (x, y, state, color, circle) {
     if (x >= 0 && x < constWidth && y >= 0 && y < constHeight) {
         var pxl = pxlArray[x][y];
-        //makes wall "bigger"
-        if ((pxl.getState() == state /*|| pxl.getState()+1 == state*/) && pxl.getCircle() !== circle) {
+
+        if ((pxl.getState() == state) && pxl.getCircle() !== circle) {
             //detect if border Pixel
             pxl.setState(PXL_STATE_BORDER);
             pxl.setColor(BORDER_PXL_COLOR);
             pxl.setCircle(circle);
-            
+
             borderPxl.push(new BorderPixel(x, y, PXL_STATE_BORDER, BORDER_PXL_COLOR));
+
+            //if pixel can be set it's  not sourrounded
+            if (pxl.getCircle().surrounded) {
+                pxl.getCircle().surrounded = false;
+            }
         } else if (pxl.getState() == PXL_STATE_EMPTY) {
             //detect if Pixel emtpy
             pxl.setState(state);
@@ -203,7 +233,11 @@ var setPixelInArrayAndCanvas = function (x, y, state, color, circle) {
             pixels[index + 1] = PIXEL_ACTIVE_COLOR_RGB.g;
             pixels[index + 2] = PIXEL_ACTIVE_COLOR_RGB.b;
             pixels[index + 3] = 255;
-            //set(x, y, PIXEL_ACTIVE_COLOR);
+
+            //if pixel cant be set because it's sourrounded
+            if (pxl.getCircle().surrounded) {
+                pxl.getCircle().surrounded = false;
+            }
         }
     }
 }
@@ -213,13 +247,13 @@ var drawBorderPixel = function () {
         var tmpBorderPxl = borderPxl[i];
         var borderPxlColor = hexToRgb(tmpBorderPxl.getColor());
         //set(tmpBorderPxl.getX(), tmpBorderPxl.getY(), tmpBorderPxl.getColor())
-        
+
         var index = ((tmpBorderPxl.getX() + tmpBorderPxl.getY() * constWidth) * 4);
         pixels[index] = borderPxlColor.r;
         pixels[index + 1] = borderPxlColor.g;
         pixels[index + 2] = borderPxlColor.b;
         pixels[index + 3] = 255;
-        
+
     }
     //updatePixels();
 }
