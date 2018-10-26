@@ -78,30 +78,30 @@ function setup() {
     angleMode(DEGREES);
     //Framerate (maximum the display hertz, normally 60fps) higher -> faster, lower -> slower
     frameRate(60);
-
+    
+    //paints entire canvas
     background('#1e1e1e');
 
     currentRadius = 0;
 
+    //If the page is loaded the first time, amountCircles is undefined. On first load, the circles must be generated. Later, they can just be drawn again
     if (!amountCircles) {
-        //default value amount cirlces
+        //default value amount Circles
         amountCircles = 10;
+        //generate circles
         state = GENERATE_CIRCLES
     } else {
+        //draw circles
         state = DRAW_CIRCLES
     }
     isSetup = true;
 }
 
+//This function gets repeatedly called after the setup function
 function draw() {
-    var fps = frameRate();
-
-    //point(mouseX, mouseY);
-    //DrawCirle(300, 300, 100);
-
-    //ellipse(mouseX, mouseY, 80, 80);
+    //State machine
     if (state == DO_NOTHING) {
-
+        //do nothing
     } else if (state == GENERATE_CIRCLES) {
         generateCirclesFun();
     } else if (state == CIRCLE_MODE) {
@@ -112,12 +112,10 @@ function draw() {
         setup();
     } else if (state == DRAW_CIRCLES) {
         background('#1e1e1e');
-        console.log("draw random cirlces");
+        console.log("draw random circles");
         drawPoints();
         state = DO_NOTHING;
     }
-    stroke(255);
-    text("FPS: " + fps.toFixed(2) + " / 60.00", 10, height - 10);
 }
 
 
