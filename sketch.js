@@ -29,39 +29,54 @@ var finished;
 //How many circles should be generated. Is set in the UI
 var amountCircles;
 
+//The Circle array contain all Circle objects
 var circles = [];
+//The virtual Pixel array. Contains all Pixel objects
 var pxlArray;
+//The BorderPixel array contains all BorderPixel objects 
 var borderPxl = [];
 
+//The different pixel states
+//Default Pixel state. Pixel is empty and not set.
 const PXL_STATE_EMPTY = 0;
-const STANDART_PXL_COLOR = "1e1e1e";
-const STANDART_PXL_COLOR_RGB = hexToRgb(STANDART_PXL_COLOR);
+//Pixel border state. Pixel is set as border.
+const PXL_STATE_BORDER = -1;
 
+//Default Pixel color (same as background color)
+const DEFAULT_PXL_COLOR = "1e1e1e";
+const DEFAULT_PXL_COLOR_RGB = hexToRgb(DEFAULT_PXL_COLOR);
+
+//The Border Pixel color
 const BORDER_PXL_COLOR = "ff0000";
 const BORDER_PXL_COLOR_RGB = hexToRgb(BORDER_PXL_COLOR);
 
+//The active Pixel color
 const PIXEL_ACTIVE_COLOR = "ffffff";
 const PIXEL_ACTIVE_COLOR_RGB = hexToRgb(PIXEL_ACTIVE_COLOR);
 
-const PXL_STATE_BORDER = -1;
-
+//Setup for the program
 function setup() {
-    isSetup = true;
-    stopCounter = 0;
     finished = false;
+    //Clear or create borderPxl array
     borderPxl = [];
+    //Set the pixel density for the canvas
+    //lower -> more blurry but faster, higher -> sharper but slower
+    //! Code works only with value 1!
     pixelDensity(1);
 
+    //create the virtual Pixel array with default values
     pxlArray = createPxlArray(constWidth, constHeight);
     for (x = 0; x < constWidth; x++) {
         for (y = 0; y < constWidth; y++) {
-            pxlArray[x][y] = new Pixel(PXL_STATE_EMPTY, STANDART_PXL_COLOR)
+            pxlArray[x][y] = new Pixel(PXL_STATE_EMPTY, DEFAULT_PXL_COLOR)
         }
     }
 
+    //Create canvas for "drawing"
     canvas = createCanvas(constWidth, constHeight);
     canvas.parent("canvas");
     angleMode(DEGREES);
+    //Framerate (maximum the display hertz, normally 60fps) higher -> faster, lower -> slower
     frameRate(60);
 
     background('#1e1e1e');
@@ -75,6 +90,7 @@ function setup() {
     } else {
         state = DRAW_CIRCLES
     }
+    isSetup = true;
 }
 
 function draw() {
@@ -119,7 +135,7 @@ function drawPoints() {
 function generateCirclesFun() {
     circles = [];
     for (var i = 0; i < amountCircles; i++) {
-        var cirlce = new Circle(Math.floor((Math.random() * constWidth) + 0), Math.floor((Math.random() * constHeight) + 0), 0, STANDART_PXL_COLOR);
+        var cirlce = new Circle(Math.floor((Math.random() * constWidth) + 0), Math.floor((Math.random() * constHeight) + 0), 0, DEFAULT_PXL_COLOR);
         circles.push(cirlce);
     }
     state = DRAW_CIRCLES;
@@ -205,11 +221,11 @@ var DrawCircleInArrayAndCanvas = function (x0, y0, radius, color, circle) {
     }
 }
 
-var setPixelInArrayAndCanvas = function (x, y, state, color, circle) {
+var setPixelInArrayAndCanvas = function (x, y, pixelState, color, circle) {
     if (x >= 0 && x < constWidth && y >= 0 && y < constHeight) {
         var pxl = pxlArray[x][y];
 
-        if ((pxl.getState() == state) && pxl.getCircle() !== circle) {
+        if ((pxl.getState() == pixelState) && pxl.getCircle() !== circle) {
             //detect if border Pixel
             pxl.setState(PXL_STATE_BORDER);
             pxl.setColor(BORDER_PXL_COLOR);
@@ -217,13 +233,13 @@ var setPixelInArrayAndCanvas = function (x, y, state, color, circle) {
 
             borderPxl.push(new BorderPixel(x, y, PXL_STATE_BORDER, BORDER_PXL_COLOR));
 
-            //if pixel can be set it's  not sourrounded
+            //if pixel can be set it's  not surrounded
             if (pxl.getCircle().surrounded) {
                 pxl.getCircle().surrounded = false;
             }
         } else if (pxl.getState() == PXL_STATE_EMPTY) {
             //detect if Pixel emtpy
-            pxl.setState(state);
+            pxl.setState(pixelState);
             pxl.setColor(color);
             pxl.setCircle(circle);
 
