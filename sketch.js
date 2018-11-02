@@ -54,34 +54,37 @@ const BORDER_PXL_COLOR_RGB = hexToRgb(BORDER_PXL_COLOR);
 const PIXEL_ACTIVE_COLOR = "ffffff";
 const PIXEL_ACTIVE_COLOR_RGB = hexToRgb(PIXEL_ACTIVE_COLOR);
 
-//Setup for the program
+//function of p5js. Setup the program. Is executed on page load
 function setup() {
     finishedAlgo = false;
     //Clear or create borderPxl array
     borderPxl = [];
-    //Set the pixel density for the canvas
+    //function of p5js. Set the pixel density for the canvas
     //lower -> more blurry but faster, higher -> sharper but slower
     //! Code works only with value 1!
     pixelDensity(1);
 
-    //create the virtual Pixel array with default values
+    //create the virtual Pixel array 
     pxlArray = createPxlArray(constWidth, constHeight);
+    //create all Pixel objects and set all default values for every pixel
     for (x = 0; x < constWidth; x++) {
         for (y = 0; y < constWidth; y++) {
             pxlArray[x][y] = new Pixel(PXL_STATE_EMPTY, DEFAULT_PXL_COLOR)
         }
     }
 
-    //Create canvas for "drawing"
+    //function of p5js. Set up canvas for "drawing"
     canvas = createCanvas(constWidth, constHeight);
     canvas.parent("canvas");
     angleMode(DEGREES);
-    //Framerate (maximum the display hertz, normally 60fps) higher -> faster, lower -> slower
+    //function of p5js. Set framerate (normally 60fps, most displays are only capable of showing <= 60) 
+    //higher -> faster, lower -> slower
     frameRate(60);
     
-    //paints entire canvas
+    //function of p5js. paints entire canvas in this color
     background('#1e1e1e');
 
+    //set the current circle radius to 0 
     currentRadius = 0;
 
     //If the page is loaded the first time, amountCircles is undefined. On first load, the circles must be generated. Later, they can just be drawn again
@@ -91,63 +94,84 @@ function setup() {
         //generate circles
         state = GENERATE_CIRCLES
     } else {
-        //draw circles
+        //draw circles points
         state = DRAW_CIRCLES
     }
+    //Algorithm is ready
     isSetup = true;
 }
 
-//This function gets repeatedly called after the setup function
+//function of p5js. This function gets repeatedly called after the setup function
 function draw() {
-    //State machine
+    // The main state machine
     if (state == DO_NOTHING) {
-        //do nothing
+        //do nothing -> The Canvas will do nothing during this state
     } else if (state == GENERATE_CIRCLES) {
+        //Generate new circle objects
         generateCirclesFun();
     } else if (state == CIRCLE_MODE) {
+        //starts the algorithm in circle mode (circle that get bigger)
         isSetup = false;
         circleModeFun();
     } else if (state == RESET) {
+        //Reset the entire algorithm to original state
         state = DO_NOTHING;
         setup();
     } else if (state == DRAW_CIRCLES) {
+        //draw the center points of the circle on the canvas
+        //function of p5js.
         background('#1e1e1e');
         console.log("draw random circles");
+        //draw center points
         drawPoints();
         state = DO_NOTHING;
     }
 }
 
 
-
+//draw the center points of the circle on the canvas
 function drawPoints() {
+    //function of p5js. Saves the current options of the canvas
     push();
+    //function of p5js. Sets the canvas to radius mode (All objects are drawn around the center point)
     rectMode(RADIUS);
+    //draw small points for the circle
     for (var i = 0; i < circles.length; i++) {
-        ellipse(circles[i].getCenterX(), circles[i].getCenterY(), 2, 2)
+        //function of p5js. Draws a small ellipse
+        ellipse(circles[i].getCenterX(), circles[i].getCenterY(), 3, 3)
     }
+    //function of p5js. Retrieve the old canvas options (set above)
     pop();
 }
 
-
+//Generate new circle objects with random center points
 function generateCirclesFun() {
     circles = [];
     for (var i = 0; i < amountCircles; i++) {
-        var cirlce = new Circle(Math.floor((Math.random() * constWidth) + 0), Math.floor((Math.random() * constHeight) + 0), 0, DEFAULT_PXL_COLOR);
-        circles.push(cirlce);
+        //Random center points and set default pixel color
+        var circle = new Circle(Math.floor((Math.random() * constWidth) + 0), Math.floor((Math.random() * constHeight) + 0), 0, DEFAULT_PXL_COLOR);
+        circles.push(circle);
     }
+    //Draw the circles on the canvas that were just generated
     state = DRAW_CIRCLES;
 }
 
 
-
+//This algorithm tries to solve the issue using circles that get bigger and bigger. At some point the will 
+//overlap each other. These intersection points are the border of the voronoi field. 
+//For more information, consider reading the documentation.
 function circleModeFun() {
     background('#1e1e1e');
+    //function of p5js. It loads all displaying pixel from the canvas.
     loadPixels();
+    //Internal flag if algorithm is finished
+    //set temporarily to true. (Must be false if even one of the circles isn't)
     var finished = true;
+
     for (var i = 0; i < circles.length; i++) {
         if (!circles[i].surrounded) {
-            //set temporarly to true
+            //Internal flag if all pixels can't be set
+            //set temporarily to true. (Must be false if even one of the pixel can be set)
             circles[i].surrounded = true;
             DrawCircleInArrayAndCanvas(circles[i].getCenterX(), circles[i].getCenterY(), currentRadius, circles[i].getColor(), circles[i]);
         }
