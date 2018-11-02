@@ -25,7 +25,7 @@ var currentRadius;
 //Flag if the program is set up (primarily only for the UI)
 var isSetup;
 //Flag if the algorithm is finished
-var finished;
+var finishedAlgo;
 //How many circles should be generated. Is set in the UI
 var amountCircles;
 
@@ -56,7 +56,7 @@ const PIXEL_ACTIVE_COLOR_RGB = hexToRgb(PIXEL_ACTIVE_COLOR);
 
 //Setup for the program
 function setup() {
-    finished = false;
+    finishedAlgo = false;
     //Clear or create borderPxl array
     borderPxl = [];
     //Set the pixel density for the canvas
@@ -158,10 +158,10 @@ function circleModeFun() {
     }
     //check if it's finished
     if (finished) {
-        state = DO_NOTHING;
         for (var i = 0; i < circles.length; i++) {
             circles[i].surrounded = false;
         }
+        finish();
     }
     drawBorderPixel();
     updatePixels();
@@ -170,8 +170,8 @@ function circleModeFun() {
     currentRadius += 1;
 }
 
-function finish() {
-    finished = true;
+var finish = function() {
+    finishedAlgo = true;
     state = DO_NOTHING;
 }
 
