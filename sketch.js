@@ -173,6 +173,7 @@ function circleModeFun() {
             //Internal flag if all pixels can't be set
             //set temporarily to true. (Must be false if even one of the pixel can be set)
             circles[i].surrounded = true;
+            //draw the circle in the virtual pixel array AND in the canvas
             DrawCircleInArrayAndCanvas(circles[i].getCenterX(), circles[i].getCenterY(), currentRadius, circles[i].getColor(), circles[i]);
         }
         //detect if all circles are surrounded
@@ -187,26 +188,38 @@ function circleModeFun() {
         }
         finish();
     }
+    //draw the border pixels
     drawBorderPixel();
+
+    //function of p5js. It updates all displaying pixel on the canvas.    
     updatePixels();
+    //draw the center points of the circles again
     drawPoints();
 
+    //make the radius bigger
     currentRadius += 1;
 }
 
+//this function is called when a algorithm has finished
 var finish = function() {
+    //set finished flag to true
     finishedAlgo = true;
+    //we tell the program to do nothing after it finished
     state = DO_NOTHING;
 }
 
 
-
+//This function draws the circle with pixels
+//It draws the circle in to the virtual pixel array and the real one. (real is only for displaying)
 var DrawCircleInArrayAndCanvas = function (x0, y0, radius, color, circle) {
     var x = radius;
     var y = 0;
     var radiusError = 1 - x;
 
+    //draw whole circle
+    //todo link to source
     while (x >= y) {
+        //The circle has a boarder of 2 pixels to insure that every pixel has been set at least once.
         setPixelInArrayAndCanvas(x + x0, y + y0, radius, color, circle);
         setPixelInArrayAndCanvas(x + x0 + 1, y + y0, radius, color, circle);
 
@@ -243,36 +256,46 @@ var DrawCircleInArrayAndCanvas = function (x0, y0, radius, color, circle) {
     }
 }
 
+//this function sets an individual pixel in the virtual pixel array and the real one 
 var setPixelInArrayAndCanvas = function (x, y, pixelState, color, circle) {
+    //check if inside the canvas
     if (x >= 0 && x < constWidth && y >= 0 && y < constHeight) {
         var pxl = pxlArray[x][y];
 
+        //check if the pixel has the same size
+        //circles with the same size will recognize each other by having the same state with each pixel (see documentation)
+        //pixels that have the state will be added as boarder pixel
         if ((pxl.getState() == pixelState) && pxl.getCircle() !== circle) {
-            //detect if border Pixel
+            //set Pixel to boarder state
             pxl.setState(PXL_STATE_BORDER);
             pxl.setColor(BORDER_PXL_COLOR);
+            //which circle it belongs to
             pxl.setCircle(circle);
 
+            //add a new pixel to the boarder pixel. This allows us to only paint the boarder pixels and not the whole array
             borderPxl.push(new BorderPixel(x, y, PXL_STATE_BORDER, BORDER_PXL_COLOR));
 
-            //if pixel can be set it's  not surrounded
+            //if pixel can be set it's not surrounded => circle is not surrounded
             if (pxl.getCircle().surrounded) {
                 pxl.getCircle().surrounded = false;
             }
+
+            //if pixel has no state yet, it should belong to the this circle
         } else if (pxl.getState() == PXL_STATE_EMPTY) {
-            //detect if Pixel emtpy
+            //detect if Pixel empty
             pxl.setState(pixelState);
             pxl.setColor(color);
             pxl.setCircle(circle);
 
-            //active Pixels
+            //Here are also the active pixels displayed. The circle which gets bigger and bigger will be set here.
+            //why here?  Because like the pixels only have to be painted if they haven hit another circle
             var index = ((x + y * constWidth) * 4);
             pixels[index] = PIXEL_ACTIVE_COLOR_RGB.r;
             pixels[index + 1] = PIXEL_ACTIVE_COLOR_RGB.g;
             pixels[index + 2] = PIXEL_ACTIVE_COLOR_RGB.b;
             pixels[index + 3] = 255;
 
-            //if pixel cant be set because it's sourrounded
+            //if pixel can be set because it's not surrounded
             if (pxl.getCircle().surrounded) {
                 pxl.getCircle().surrounded = false;
             }
@@ -280,12 +303,16 @@ var setPixelInArrayAndCanvas = function (x, y, pixelState, color, circle) {
     }
 }
 
+
+//this function draws only the border pixels. Because we only have to draw the boarder pixels, we achieve a big performance boost
 var drawBorderPixel = function () {
+    //iterate through the border pixel array
     for (var i = 0; i < borderPxl.length; i++) {
         var tmpBorderPxl = borderPxl[i];
-        var borderPxlColor = hexToRgb(tmpBorderPxl.getColor());
-        //set(tmpBorderPxl.getX(), tmpBorderPxl.getY(), tmpBorderPxl.getColor())
-
+        //var borderPxlColor = hexToRgb(tmpBorderPxl.getColor());
+        var borderPxlColor = BORDER_PXL_COLOR_RGB;
+        
+        //set pixel in the canvas 
         var index = ((tmpBorderPxl.getX() + tmpBorderPxl.getY() * constWidth) * 4);
         pixels[index] = borderPxlColor.r;
         pixels[index + 1] = borderPxlColor.g;
@@ -293,9 +320,9 @@ var drawBorderPixel = function () {
         pixels[index + 3] = 255;
 
     }
-    //updatePixels();
 }
 
+//this function allows us to create multidimensional arrays in javascript. In native javascript this not possible like in java.
 function createPxlArray(length) {
     var arr = new Array(length || 0),
         i = length;
@@ -306,6 +333,7 @@ function createPxlArray(length) {
     return arr;
 }
 
+//this function converts a hex color code to a rgb json object
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
