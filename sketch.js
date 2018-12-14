@@ -85,7 +85,7 @@ function setup() {
     background('#1e1e1e');
 
     //set the current circle radius to 0 
-    currentRadius = 0;
+    currentRadius = 1;
 
     //If the page is loaded the first time, amountCircles is undefined. On first load, the circles must be generated. Later, they can just be drawn again
     if (!amountCircles) {
