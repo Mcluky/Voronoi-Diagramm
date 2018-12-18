@@ -7,7 +7,7 @@
     <script src="BorderPixel.js"></script>
     <script src="Circle.js"></script>
     <script src="sketch.js"></script>
-    <link rel='stylesheet' href='/style.css' />
+    <link rel='stylesheet' href='style.css' />
 </head>
 <body>
     <div id="container_box">
@@ -23,10 +23,10 @@
     </div>
 </body>
 <script>
-    var lastState = DO_NOTHING;
-    var startButtons = document.getElementsByClassName('startButton');
-    var stopContButton = document.getElementById('stop');
-    var stopCounter = 0;
+    let lastState = DO_NOTHING;
+    let startButtons = document.getElementsByClassName('startButton');
+    let stopContButton = document.getElementById('stop');
+    let stopCounter = 0;
     (function(){
     // do some stuff
         setTimeout(arguments.callee, 10);
@@ -34,13 +34,13 @@
         if(state == DO_NOTHING && isSetup){
             stopContButton.disabled = true;
             stopContButton.firstChild.data = 'stop';
-            for(var i = 0; i < startButtons.length; i++){
+            for(let i = 0; i < startButtons.length; i++){
                 startButtons[i].disabled = false;
             }
         } else if(state != DO_NOTHING){
             stopContButton.disabled = false;
             stopContButton.firstChild.data = 'stop';
-            for(var i = 0; i < startButtons.length; i++){
+            for(let i = 0; i < startButtons.length; i++){
                 startButtons[i].disabled = true;
             }
         } else if(state == DO_NOTHING && !isSetup && finishedAlgo){
@@ -63,15 +63,15 @@
             state = statePara;
         }
         if(state != DO_NOTHING){
-            var startButtons = document.getElementsByClassName('startButton');
-            for(var i = 0; i < startButtons.length; i++){
+            let startButtons = document.getElementsByClassName('startButton');
+            for(let i = 0; i < startButtons.length; i++){
                 startButtons[i].disabled = true;
             }
         }
 
         if(state == DO_NOTHING && statePara == -1){
-            var startButtons = document.getElementsByClassName('startButton');
-            for(var i = 0; i < startButtons.length; i++){
+            let startButtons = document.getElementsByClassName('startButton');
+            for(let i = 0; i < startButtons.length; i++){
                 startButtons[i].disabled = false;
             }
         }
