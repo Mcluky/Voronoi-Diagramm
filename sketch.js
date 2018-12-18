@@ -71,7 +71,6 @@ function setup() {
     for (y = 0; y < constWidth; y++) {
       pxlArray[x][y] = new Pixel(PXL_STATE_EMPTY, DEFAULT_PXL_COLOR);
     }
-<<<<<<< HEAD
   }
 
   //function of p5js. Set up canvas for "drawing"
@@ -100,35 +99,6 @@ function setup() {
   }
   //Algorithm is ready
   isSetup = true;
-=======
-
-    //function of p5js. Set up canvas for "drawing"
-    canvas = createCanvas(constWidth, constHeight);
-    canvas.parent("canvas");
-    angleMode(DEGREES);
-    //function of p5js. Set framerate (normally 60fps, most displays are only capable of showing <= 60) 
-    //higher -> faster, lower -> slower
-    frameRate(60);
-    
-    //function of p5js. paints entire canvas in this color
-    background('#1e1e1e');
-
-    //set the current circle radius to 0 
-    currentRadius = 1;
-
-    //If the page is loaded the first time, amountCircles is undefined. On first load, the circles must be generated. Later, they can just be drawn again
-    if (!amountCircles) {
-        //default value amount Circles
-        amountCircles = 10;
-        //generate circles
-        state = GENERATE_CIRCLES
-    } else {
-        //draw circles points
-        state = DRAW_CIRCLES
-    }
-    //Algorithm is ready
-    isSetup = true;
->>>>>>> 1025c86b4f887ab521a23086099687c2b2613a1c
 }
 
 //function of p5js. This function gets repeatedly called after the setup function
