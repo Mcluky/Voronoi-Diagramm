@@ -172,10 +172,10 @@ function circleModeFun() {
     let finished = true;
 
     for (let i = 0; i < circles.length; i++) {
-        if (!circles[i].surrounded) {
+        if (!circles[i].getSurrounded()) {
             //Internal flag if all pixels can't be set
             //set temporarily to true. (Must be false if even one of the pixel can be set)
-            circles[i].surrounded = true;
+            circles[i].setSurrounded(true);
             //draw the circle in the virtual pixel array AND in the canvas
             DrawCircleInArrayAndCanvas(
                 circles[i].getCenterX(),
@@ -187,13 +187,13 @@ function circleModeFun() {
         }
         //detect if all circles are surrounded
         if (finished) {
-            finished = circles[i].surrounded;
+            finished = circles[i].getSurrounded();
         }
     }
     //check if it's finished
     if (finished) {
         for (let i = 0; i < circles.length; i++) {
-            circles[i].surrounded = false;
+            circles[i].setSurrounded(false);
         }
         finish();
     }
@@ -291,8 +291,8 @@ let setPixelInArrayAndCanvas = function (x, y, pixelState, color, circle) {
             borderPxl.push(new BorderPixel(x, y, PXL_STATE_BORDER, BORDER_PXL_COLOR));
 
             //if pixel can be set it's not surrounded => circle is not surrounded
-            if (pxl.getCircle().surrounded) {
-                pxl.getCircle().surrounded = false;
+            if (pxl.getCircle().getSurrounded()) {
+                pxl.getCircle().setSurrounded(false);
             }
 
             //if pixel has no state yet, it should belong to the this circle
@@ -311,8 +311,8 @@ let setPixelInArrayAndCanvas = function (x, y, pixelState, color, circle) {
             pixels[index + 3] = 255;
 
             //if pixel can be set because it's not surrounded
-            if (pxl.getCircle().surrounded) {
-                pxl.getCircle().surrounded = false;
+            if (pxl.getCircle().getSurrounded) {
+                pxl.getCircle().setSurrounded(false);
             }
         }
     }
