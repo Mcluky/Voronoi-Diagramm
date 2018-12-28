@@ -34,13 +34,13 @@
 
         if(state == DO_NOTHING && isSetup){
             stopContButton.disabled = true;
-            stopContButton.firstChild.data = 'stop';
+            stopContButton.firstChild.data = 'Stop';
             for(let i = 0; i < startButtons.length; i++){
                 startButtons[i].disabled = false;
             }
         } else if(state != DO_NOTHING){
             stopContButton.disabled = false;
-            stopContButton.firstChild.data = 'stop';
+            stopContButton.firstChild.data = 'Stop';
             for(let i = 0; i < startButtons.length; i++){
                 startButtons[i].disabled = true;
             }
@@ -48,7 +48,7 @@
             stopContButton.disabled = true;
         } else if(state == DO_NOTHING && !isSetup){
             stopContButton.disabled = false;
-            stopContButton.firstChild.data = 'continue';
+            stopContButton.firstChild.data = 'Continue';
         } 
     })();
 
