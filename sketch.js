@@ -148,9 +148,26 @@ function generateCirclesFun() {
     circles = [];
     for (let i = 0; i < amountCircles; i++) {
         //Random center points and set default pixel color
+        //make sure that no circle center is on top of each other
+        let randX;
+        let randY;
+        let tendency = Math.sqrt((constHeight * constWidth) / ((amountCircles) * Math.PI))*0.6;
+        do {
+            randX = Math.floor(Math.random() * constWidth);
+            randY = Math.floor(Math.random() * constHeight);
+            for (let j = 0; j < circles.length; j++) {
+                let distance = Math.sqrt(Math.pow((circles[j].getCenterX() - randX),2) + Math.pow((circles[j].getCenterY() - randY), 2));
+                if (distance < tendency) {
+                    randX = false;
+                    randY = false;
+                    break;
+                }
+            }
+        } while (!randX && !randY);
+
         let circle = new Circle(
-            Math.floor(Math.random() * constWidth),
-            Math.floor(Math.random() * constHeight),
+            randX,
+            randY,
             0,
             DEFAULT_PXL_COLOR
         );
