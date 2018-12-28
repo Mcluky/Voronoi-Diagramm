@@ -149,8 +149,8 @@ function generateCirclesFun() {
     for (let i = 0; i < amountCircles; i++) {
         //Random center points and set default pixel color
         let circle = new Circle(
-            Math.floor(Math.random() * constWidth + 0),
-            Math.floor(Math.random() * constHeight + 0),
+            Math.floor(Math.random() * constWidth),
+            Math.floor(Math.random() * constHeight),
             0,
             DEFAULT_PXL_COLOR
         );
